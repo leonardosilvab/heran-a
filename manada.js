@@ -1,7 +1,6 @@
-var barulhos = [];
 
 function Animal(){
-	var barulho = {};
+	this.barulho = "";
 }
 
 Animal.prototype = {
@@ -11,33 +10,58 @@ Animal.prototype = {
 }
 
 function Gato(){
-	this.barulho = "Miau";
 	Animal.call(this);
+	this.barulho = "Miau";	
 }
+
+Gato.prototype = new Animal();
 
 function Cachorro(){
-	this.barulho = "Au";
 	Animal.call(this);
+	this.barulho = "Au";	
+}
+Cachorro.prototype = new Animal();
+
+function Manada(barulhos){
+	this.animais = [];
+	this.barulhos = barulhos;
 }
 
-var ManadaVirgula = new Animal();
-
-ManadaVirgula.adicionar = function(){
-	barulhos.push(this.barulho+", ");
-}
-
-var ManadaSustenido = new Animal();
-
-ManadaSustenido.adicionar = function(){
-	barulhos.push(this.barulho+"# ");
+Manada.prototype = {
+	adicionar : function(animal){
+		animais.push(animal);
+	}
 }
 
 
+function ManadaVirgula(){	
+	Manada.call(this, function(){
+		var final = "";
+		for(var x=0; x < animais.lenght; x++){
+		final= final+animais[x]+", ";
+	}
+	return final;
+	});
+}
+
+ManadaVirgula.prototype = new Manada();
+
+function ManadaSustenido(){	
+	Manada.call(this, function(){
+		var final = "";
+		for (var i = 0; i < animais.lenght; i++) {
+		final = final+animais[i]+"# "+animais[i]+"# ";
+	}
+	return final;
+	});
+
+	
+}
+
+ManadaSustenido.prototype = new Manada();
 
 
-//retornos
-
-var manadaVirgula = new ManadaVirgula();
+var	manadaVirgula = new ManadaVirgula();
 var manadaSustenidaDupla = new ManadaSustenido();
 var animais = [new Cachorro(), new Gato()];
 
