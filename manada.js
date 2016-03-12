@@ -1,4 +1,3 @@
-
 function Animal(){
 	this.barulho = "";
 }
@@ -20,45 +19,58 @@ function Cachorro(){
 	Animal.call(this);
 	this.barulho = "Au";	
 }
+
 Cachorro.prototype = new Animal();
 
-function Manada(barulhos){
+function Manada(){
 	this.animais = [];
-	this.barulhos = barulhos;
 }
 
 Manada.prototype = {
-	adicionar : function(animal){
-		animais.push(animal);
+	adicionar: function(animal){
+		this.animais.push(animal);
 	}
 }
 
+function ManadaVirgula(){
+	Manada.call(this);
 
-function ManadaVirgula(){	
-	Manada.call(this, function(){
-		var final = "";
-		for(var x=0; x < animais.lenght; x++){
-		final= final+animais[x]+", ";
+	this.barulhos = function(){
+		var final = '';
+		for(var x = 0; x < animais.length; x++){
+			final+=animais[x].fazerBarulho();
+		if (x != animais.length-1)
+			final+=', '
+		}
+
+		return final;
+
 	}
-	return final;
-	});
 }
+	
 
 ManadaVirgula.prototype = new Manada();
 
-function ManadaSustenido(){	
-	Manada.call(this, function(){
-		var final = "";
-		for (var i = 0; i < animais.lenght; i++) {
-		final = final+animais[i]+"# "+animais[i]+"# ";
-	}
-	return final;
-	});
 
-	
+function ManadaSustenido(){
+	Manada.call(this);
+
+	this.barulhos = function(){
+		var final = '';
+		for(var x = 0; x < animais.length; x++){
+			if(x!=animais.length-1){
+			final += animais[x].fazerBarulho()+"# "+animais[x].fazerBarulho()+"# ";
+			}
+			else{
+				final += animais[x].fazerBarulho()+"# "+animais[x].fazerBarulho();
+			}
+		}
+		return final;
 }
+	}
 
 ManadaSustenido.prototype = new Manada();
+
 
 
 var	manadaVirgula = new ManadaVirgula();
@@ -70,8 +82,10 @@ animais.forEach(function (animal) {
   manadaSustenidaDupla.adicionar(animal);
 });
 
-// Print Esperado: Au, Miau
+
+//Print Esperado: Au, Miau
 console.log(manadaVirgula.barulhos());
 
 // Print Esperado: Au# Au# Miau# Miau
 console.log(manadaSustenidaDupla.barulhos());
+
